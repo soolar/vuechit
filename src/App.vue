@@ -1,15 +1,28 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Familiar :fam="fam"/>
+  <button @click="incfam">Next familiar</button>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Familiar from './components/Familiar.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Familiar
+  },
+  data() {
+    return { famnum: 0 }
+  },
+  computed: {
+    fam() {
+      return window.fams.favorites[this.famnum];
+    }
+  },
+  methods: {
+    incfam() {
+      this.famnum = this.famnum + 1;
+    }
   }
 }
 </script>
