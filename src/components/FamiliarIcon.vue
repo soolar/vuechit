@@ -1,7 +1,6 @@
 <template>
 	<div class="familiar">
-		<Icon :img="imgsrc" />
-		<span>{{ fam.name }}</span>
+		<Icon :img="'/images/itemimages/' + fam.image" :title="fam.name + ', the ' + fam.type"/>
 	</div>
 </template>
 
@@ -9,17 +8,12 @@
 import Icon from './Icon.vue'
 
 export default {
-	name: 'Familiar',
+	name: 'FamiliarIcon',
 	components: {
     Icon
   },
 	props: {
 		fam: Object
-	},
-	computed: {
-		imgsrc() {
-			return "/images/itemimages/" + this.fam.image;
-		}
 	}
 }
 </script>

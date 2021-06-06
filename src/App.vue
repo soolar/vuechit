@@ -1,39 +1,45 @@
 <template>
-  <Familiar :fam="fam"/>
-  <button @click="incfam">Next familiar</button>
+	<FamiliarBrick/>
+	<FamiliarIcon :fam="fam"/>
+	<button @click="incfam">Next familiar</button>
 </template>
 
 <script>
-import Familiar from './components/Familiar.vue'
+	import FamiliarIcon from './components/FamiliarIcon.vue'
+	import FamiliarBrick from './components/FamiliarBrick.vue'
 
-export default {
-  name: 'App',
-  components: {
-    Familiar
-  },
-  data() {
-    return { famnum: 0 }
-  },
-  computed: {
-    fam() {
-      return window.fams.favorites[this.famnum];
-    }
-  },
-  methods: {
-    incfam() {
-      this.famnum = this.famnum + 1;
-    }
-  }
-}
+	export default {
+		name: 'App',
+		components: {
+			FamiliarIcon,
+			FamiliarBrick
+		},
+		data() {
+			return {
+				famnum: 0,
+				favs: window.fams.favorites
+			}
+		},
+		computed: {
+			fam() {
+				return window.fams.all[this.famnum];
+			}
+		},
+		methods: {
+			incfam() {
+				this.famnum = this.famnum + 1;
+			}
+		}
+	}
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+	font-family: Avenir, Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: center;
+	color: #2c3e50;
+	margin-top: 60px;
 }
 </style>
