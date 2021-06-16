@@ -14,7 +14,13 @@ const {
 	visitUrl,
 	myPath,
 	familiarWeight,
+	getProperty,
 } = require('kolmafia');
+
+const props = [
+	"_roboDrinks",
+	"_banderRunaways",
+];
 
 var pageSource;
 
@@ -59,7 +65,8 @@ function writeItems(arr)
 	{
 		arr.push('\t["' + it + '"]: {');
 		addField(arr, "name", it.toString());
-		addField(arr, "image", it.image, true);
+		addField(arr, "image", it.image);
+		addField(arr, "plural", it.plural, true);
 		arr.push('},\n');
 	});
 	arr.push('}\n');
@@ -72,6 +79,9 @@ function writeItems(arr)
 		addField(arr, slot, 'items["' + equippedItem(Slot.get(slot)) + '"]', i == equipSlots.length - 1, true);
 	}
 	arr.push('}\n');
+	arr.push('items.favorites = [items["');
+	arr.push(getProperty("chit.gear.favorites").split("|").join('"], items["'));
+	arr.push('"]];\n');
 }
 
 function writeFams(arr)
@@ -86,7 +96,9 @@ function writeFams(arr)
 		addField(arr, "name", fam.name);
 		addField(arr, "experience", fam.experience);
 		addField(arr, "weight", familiarWeight(fam));
-		addField(arr, "dropName", fam.dropName);
+		addField(arr, "drop", 'items["' + fam.dropItem + '"]', false, true);
+		addField(arr, "dropsLimit", fam.dropsLimit);
+		addField(arr, "dropsToday", fam.dropsToday);
 		addField(arr, "owned", haveFamiliar(fam));
 		addField(arr, "unrestricted", isUnrestricted(fam), true);
 		arr.push('},\n');
@@ -116,6 +128,16 @@ function writeFams(arr)
 	}
 }
 
+function writeProps(arr)
+{
+	arr.push('var props = {\n');
+	for(let i = 0; i < props.length; ++i)
+	{
+		arr.push('\t' + props[i] + ': `' + getProperty(props[i]) + '`,\n');
+	}
+	arr.push('}\n');
+}
+
 function main()
 {
 	print("Doing stuff");
@@ -123,6 +145,7 @@ function main()
 	let toInsert = [ '\n\t\t<script>\n' ];
 	writeItems(toInsert);
 	writeFams(toInsert);
+	writeProps(toInsert);
 	toInsert.push('\t\t</script>');
 	let page = fileToBuffer('vuechit/index.html');
 	let where = page.indexOf('</title>') + '</title>'.length;

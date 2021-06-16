@@ -1,7 +1,5 @@
 <template>
-	<div class="item">
-		<Icon :img="'/images/itemimages/' + item.image" :title="item.name"/>
-	</div>
+	<Icon :img="'/images/itemimages/' + item.image" :title="item.name" class="item"/>
 </template>
 
 <script>
